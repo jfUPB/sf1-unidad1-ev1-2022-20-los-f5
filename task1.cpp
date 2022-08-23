@@ -24,24 +24,19 @@ void task1()
         if (Serial.available() > 0)
         {
             int dataRx = Serial.read();
-            if (dataRx == 'u')
+            if (dataRx == '1')
             {
-                Serial.print("UP BTN\n");
+                Serial.print("ONE BTN\n");
                 buttonEvt.trigger = true;
-                buttonEvt.whichButton = BUTTONS::UP_BTN;
+                buttonEvt.whichButton = BUTTONS::ONE_BTN;
             }
-            if (dataRx == 'd')
+            if (dataRx == '2')
             {
-                Serial.print("DOWN BTN\n");
+                Serial.print("TWO BTN\n");
                 buttonEvt.trigger = true;
-                buttonEvt.whichButton = BUTTONS::DOWN_BTN;
+                buttonEvt.whichButton = BUTTONS::TWO_BTN;
             }
-            if (dataRx == 'a')
-            {
-                Serial.print("ARMED BTN\n");
-                buttonEvt.trigger = true;
-                buttonEvt.whichButton = BUTTONS::ARM_BTN;
-            }
+           
         }
         break;
     }
