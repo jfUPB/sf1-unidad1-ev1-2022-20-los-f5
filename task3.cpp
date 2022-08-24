@@ -26,9 +26,12 @@ void task3()
         COUNTING
     };
     static TaskStates taskState = TaskStates::INIT;
-    const uint8_t ledMode = 26;
+    static constexpr uint8_t ledMode = 26;
     const uint32_t BOMBINTERVAL = 1000U;
+    const uint32_t intervalLENTO = 1000;
     const uint32_t LEDCOUNTERINTERVAL = 500U;
+    static uint8_t conter = 0;
+   
 
     static uint8_t bombCounter;
     static BUTTONS secret[5] = {BUTTONS::ONE_BTN, BUTTONS::ONE_BTN,
@@ -46,19 +49,40 @@ void task3()
     {
     case TaskStates::INIT:
     {
+        digitalWrite(ledMode,HIGH);
+        delay(500);
+        if(conter==0)
+        {
+            digitalWrite(ledMode,HIGH);
+            delay(intervalLENTO);
+            digitalWrite(ledMode,LOW);
+            delay(intervalLENTO);
 
-        pinMode(ledMode, OUTPUT);
-        ledModeState = HIGH;
-       
-        bombCounter = 20;
-        keyCounter = 0;
-        taskState = TaskStates::WAIT_CONFIG;
+            if(buttonEvt.whichButton==BUTTONS::ONE_BTN){
+               
+                conter++;
+            }
+
+        }
+        else if(conter==1)
+        {
+            digitalWrite(ledMode,LOW);
+            delay(intervalLENTO);
+            conter --;
+        }
+       if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
+        {
+           taskState = TaskStates::WAIT_CONFIG;
+                              
+        }
+        
         break;
     }
     case TaskStates::WAIT_CONFIG:
     {
+        digitalWrite(ledMode,HIGH);
 
-        if (buttonEvt.trigger == true)
+        /*if (buttonEvt.trigger == true)
         {
             buttonEvt.trigger = false;
             if (buttonEvt.whichButton == BUTTONS::UP_BTN)
@@ -79,11 +103,11 @@ void task3()
                 taskState = TaskStates::COUNTING;
             }
        
-        }
+        }*/
 
         break;
     }
-    case TaskStates::COUNTING:
+    /*case TaskStates::COUNTING:
     {
 
         uint32_t timeNow = millis();
@@ -130,7 +154,7 @@ void task3()
         }
 
         break;
-    }
+    }*/
     default:
     {
         break;
