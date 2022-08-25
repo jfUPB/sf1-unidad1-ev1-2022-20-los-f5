@@ -42,7 +42,7 @@ void task2()
             initStableTime = millis();
             taskState = TaskState::WAIT_STABLE;
         }
-    
+        break;
     }
     case TaskState::WAIT_STABLE:
     {
