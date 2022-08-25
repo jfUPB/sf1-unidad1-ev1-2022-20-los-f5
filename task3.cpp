@@ -49,27 +49,28 @@ void task3()
     {
     case TaskStates::INIT:
     {
+        pinMode(ledMode, OUTPUT);
         digitalWrite(ledMode,HIGH);
-        delay(intervalLENTO); 
-        if(conter==0)
-        {
-            digitalWrite(ledMode,HIGH);
-            delay(intervalLENTO);
-            digitalWrite(ledMode,LOW);
-            delay(intervalLENTO);
+  
+        
+         if(buttonEvt.whichButton==BUTTONS::ONE_BTN)
+            {
+                digitalWrite(ledMode,HIGH);
+                delay(intervalLENTO); 
+                digitalWrite(ledMode,LOW);
+                delay(intervalLENTO);
 
-            if(buttonEvt.whichButton==BUTTONS::ONE_BTN){
+                if(buttonEvt.whichButton==BUTTONS::ONE_BTN)
+                {
+                    digitalWrite(ledMode,LOW);
+                    delay(2000);
+                }
                
-                conter++;
+               
             }
-
-        }
-        else if(conter==1)
-        {
-            digitalWrite(ledMode,LOW);
-            delay(intervalLENTO);
-            conter --;
-        }
+            
+        
+        
        if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
         {
            taskState = TaskStates::WAIT_CONFIG;
@@ -92,15 +93,16 @@ void task3()
             if(buttonEvt.whichButton==BUTTONS::ONE_BTN){
                
                 conter++;
-            }
-
-        }
-        else if(conter==1)
-        {
+            } 
+            else if(conter==1)
+          {
             digitalWrite(ledMode,HIGH);
             delay(intervalMEDIO);
             conter --;
+          }
+
         }
+        
        if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
         {
            taskState = TaskStates::INIT;
