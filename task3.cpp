@@ -27,13 +27,13 @@ void task3()
     };
     static TaskStates taskState = TaskStates::INIT;
     static constexpr uint8_t ledMode = 26;
-    const uint32_t BOMBINTERVAL = 1000U;
+    const uint32_t intervalRAPIDO = 250U;
     const uint32_t intervalLENTO = 1000;
-    const uint32_t LEDCOUNTERINTERVAL = 500U;
+    const uint32_t intervalMEDIO = 500U;
     static uint8_t conter = 0;
    
 
-    static uint8_t bombCounter;
+    
     static BUTTONS secret[5] = {BUTTONS::ONE_BTN, BUTTONS::ONE_BTN,
                                 BUTTONS::TWO_BTN, BUTTONS::TWO_BTN,
                                 BUTTONS::ONE_BTN};
@@ -50,7 +50,7 @@ void task3()
     case TaskStates::INIT:
     {
         digitalWrite(ledMode,HIGH);
-        delay(500);
+        delay(500); // es un delay solo para inicial al entrar en un modo, verdad?
         if(conter==0)
         {
             digitalWrite(ledMode,HIGH);
@@ -79,8 +79,36 @@ void task3()
         break;
     }
     case TaskStates::WAIT_CONFIG:
-    {
+     {
         digitalWrite(ledMode,HIGH);
+        delay(500); // es un delay solo para inicial al entrar en un modo, verdad?
+        if(conter==0)
+        {
+            digitalWrite(ledMode,HIGH);
+            delay(intervalMEDIO);
+            digitalWrite(ledMode,LOW);
+            delay(intervalMEDIO);
+
+            if(buttonEvt.whichButton==BUTTONS::ONE_BTN){
+               
+                conter++;
+            }
+
+        }
+        else if(conter==1)
+        {
+            digitalWrite(ledMode,HIGH);
+            delay(intervalMEDIO);
+            conter --;
+        }
+       if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
+        {
+           taskState = TaskStates::INIT;
+                              
+        }
+        
+        break;
+    }
 
         /*if (buttonEvt.trigger == true)
         {
@@ -155,7 +183,11 @@ void task3()
 
         break;
     }*/
-    default:
+
+}
+ 
+  
+  default:
     {
         break;
     }
