@@ -31,7 +31,7 @@ void task3()
     const uint32_t intervalLENTO = 1000;
     const uint32_t intervalMEDIO = 500U;
     static uint8_t conter = 0;
-   
+
 
     
    /*static BUTTONS secret[5] = {BUTTONS::ONE_BTN, BUTTONS::ONE_BTN,
@@ -52,7 +52,10 @@ void task3()
         pinMode(ledMode, OUTPUT);
         digitalWrite(ledMode,HIGH);
   
-        
+           if (buttonEvt.trigger == true)
+    {
+            buttonEvt.trigger = false;
+            
          if(buttonEvt.whichButton==BUTTONS::ONE_BTN)
             {
                 digitalWrite(ledMode,HIGH);
@@ -68,23 +71,27 @@ void task3()
                
                
             }
+        if (buttonEvt.whichButton==BUTTONS::TWO_BTN)
+        {
+               taskState = TaskStates::WAIT_CONFIG;
+        }
             
         
         
-       if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
-        {
-           taskState = TaskStates::WAIT_CONFIG;
-                              
-        }
+       
         
-        break;
+    }
+      break;
     }
     case TaskStates::WAIT_CONFIG:
      {
+        pinMode(ledMode, OUTPUT);
         digitalWrite(ledMode,HIGH);
         delay(intervalMEDIO); 
-        if(conter==0)
+        if (buttonEvt.trigger == true)
         {
+            if(conter==0)
+           {
             digitalWrite(ledMode,HIGH);
             delay(intervalMEDIO);
             digitalWrite(ledMode,LOW);
@@ -101,7 +108,7 @@ void task3()
             conter --;
           }
 
-        }
+          }
         
        if(buttonEvt.whichButton==BUTTONS::TWO_BTN)
         {
