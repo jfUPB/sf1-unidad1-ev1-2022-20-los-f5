@@ -28,6 +28,8 @@ void task3()
         Lento,
         Media,
         Rapida,
+        WaitLento,
+        WaitMedio,
 
     };
     static TaskStates taskState = TaskStates::INIT;
@@ -53,7 +55,7 @@ void task3()
     case TaskStates::INIT:
     {
         pinMode(ledMode, OUTPUT);
-        digitalWrite(ledMode, LOW);
+        digitalWrite(ledMode, HIGH);
 
         taskState = TaskStates::Lento;
 
@@ -72,9 +74,9 @@ void task3()
                 buttonEvt.trigger = false;
                 if (buttonEvt.whichButton == BUTTONS::ONE_BTN)
                 {
-                    digitalWrite(ledMode, ledState);
                     ledState = false;
-                    taskState = TaskStates::OFF;
+                    digitalWrite(ledMode, ledState);
+                    taskState = TaskStates::WaitLento;
                 }
                 else if (buttonEvt.whichButton == BUTTONS::TWO_BTN)
                 {
@@ -100,9 +102,9 @@ void task3()
                 buttonEvt.trigger = false;
                 if (buttonEvt.whichButton == BUTTONS::ONE_BTN)
                 {
-                    digitalWrite(ledMode, ledState);
                     ledState = true;
-                    taskState = TaskStates::ON;
+                    digitalWrite(ledMode, ledState);
+                    taskState = TaskStates::WaitMedio;
                 }
                 else if (buttonEvt.whichButton == BUTTONS::TWO_BTN)
                 {
@@ -137,8 +139,9 @@ void task3()
                 {
                     if (lastStateON == true)
                     {
-                        digitalWrite(ledMode, ledState);
                         ledState = true;
+                        digitalWrite(ledMode, ledState);
+                        
                         taskState = TaskStates::ON;
                     }
                     else if (lastStateOFF == true)
@@ -169,11 +172,10 @@ void task3()
             digitalWrite(ledMode, LOW);
             if (buttonEvt.whichButton == BUTTONS::ONE_BTN)
             {
-
+                ledState = true;
                 pinMode(ledMode, OUTPUT);
                 digitalWrite(ledMode, LOW);
                 digitalWrite(ledMode, ledState);
-                ledState = true;
                 taskState = TaskStates::Lento;
             }
             else if (buttonEvt.whichButton == BUTTONS::TWO_BTN)
@@ -204,6 +206,24 @@ void task3()
             }
         }
         break;
+        case TaskStates::WaitLento:
+        {
+           uint32_t currentTime = millis();
+          if ((currentTime - lasTime) >= intervalLENTO)
+          {
+           taskState = TaskStates::OFF;
+          }
+          break;
+        }
+         case TaskStates::WaitMedio:
+        {
+           uint32_t currentTime = millis();
+          if ((currentTime - lasTime) >= intervalMEDIO)
+          {
+           taskState = TaskStates::ON;
+          }
+          break;
+        }
     }
 
     default:
