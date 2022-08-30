@@ -1,0 +1,6 @@
+{
+    "sketch": "arduinoApp.ino",
+    "configuration": "CPUFreq=240,FlashSize=4M,PSRAM=enabled,PartitionScheme=default,FlashMode=qio,FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
+    "board": "esp32:esp32:esp32wroverkit",
+    "port": "/dev/ttyUSB0"
+}
