@@ -47,7 +47,7 @@ void task3()
 
     static bool ledState = false;
     static bool lastStateON = false;
-    static bool lastStateOFF = false;
+    
     static uint8_t key = 0;
 
     switch (taskState)
@@ -142,14 +142,14 @@ void task3()
                         ledState = true;
                         digitalWrite(ledMode, ledState);
                         
-                        taskState = TaskStates::ON;
+                        taskState = TaskStates::Media;
                     }
-                    else if (lastStateOFF == true)
+                    else if (lastStateON == false)
                     {
                         digitalWrite(ledMode, ledState);
 
                         ledState = false;
-                        taskState = TaskStates::OFF;
+                        taskState = TaskStates::Lento;
                     }
                     
 
@@ -181,7 +181,7 @@ void task3()
             else if (buttonEvt.whichButton == BUTTONS::TWO_BTN)
             {
                 taskState = TaskStates::Rapida;
-                lastStateOFF = true;
+                
                 lastStateON = false;
             }
         }
@@ -202,7 +202,7 @@ void task3()
             {
                 taskState = TaskStates::Rapida;
                 lastStateON = true;
-                lastStateOFF = false;
+                
             }
         }
         break;
