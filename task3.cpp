@@ -34,7 +34,7 @@ void task3()
     };
     static TaskStates taskState = TaskStates::INIT;
     const uint8_t ledMode = 25;
-    static uint32_t lasTime;
+    static uint32_t lasTime = 0;
     static constexpr uint32_t intervalLENTO = 1000;
     static constexpr uint32_t intervalMEDIO = 500;
     static constexpr uint32_t intervalRAPIDO = 125;
@@ -56,7 +56,7 @@ void task3()
     {
         pinMode(ledMode, OUTPUT);
         digitalWrite(ledMode, HIGH);
-
+      
         taskState = TaskStates::Lento;
 
         break;
@@ -146,9 +146,10 @@ void task3()
                     }
                     else if (lastStateON == false)
                     {
-                        digitalWrite(ledMode, ledState);
 
                         ledState = false;
+                        digitalWrite(ledMode, ledState);
+
                         taskState = TaskStates::Lento;
                     }
                     
